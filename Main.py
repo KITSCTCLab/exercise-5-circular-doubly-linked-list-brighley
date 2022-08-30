@@ -1,8 +1,8 @@
 class Node:
     def __init__(self, data=None):
         self.data = data
-        self.previous = None
-        self.next = None
+        self.previous = self
+        self.next = self
 
 
 class DoublyCircularLinkedList:
@@ -12,103 +12,75 @@ class DoublyCircularLinkedList:
 
     def add_at_tail(self, data) -> bool:
         # Write code here
-        newNode = Node(data);    
-        if(self.head == None):    
-            self.head = self.tail = newNode;    
-            self.head.previous = None;   
-            self.tail.next = None;    
-        else:    
-            self.tail.next = newNode;    
-            newNode.previous = self.tail;   
-            self.tail = newNode;    
-            self.tail.next = None;   
-           
+        temp = Node()
+        temp.data = data
+        temp.prev = end
+        temp.next = None
+        if end == None:
+            front = temp
+        else:
+            end.next = temp
+        end = temp
+        if end==temp:
+            return True
+        else:
+            return False
     def add_at_head(self, data) -> bool:
         # Write code here
-         newNode = Node(data)
-         if(self.head == None):
-            self.head = newNode
-            return
-         else:
-            self.head.prev = newNode
-            newNode.next = self.head
-            self.head = newNode
-        
+        temp=Node()
+        temp.data=data
+        temp.previous=None
+        temp.next=front
+        if front==None:
+            end=temp
+        else:
+            front.previous=temp
+        front=temp
+        if front==temp:
+            return True
+        else:
+            return False
     def add_at_index(self, index, data) -> bool:
         # Write code here
-         newNode = Node(data)
-
-  
-           if(position < 1):
-              print("\nposition should be >= 1.")
-           elif (position == 1):
-              newNode.next = self.head
-              self.head.previous = newNode
-              self.head = newNode
-           else:    
-              temp = self.head
-              for i in range(1, position-1):
-                 if(temp != None):
-                    temp = temp.next   
-    
-   
-              if(temp != None):
-                 newNode.next = temp.next
-                 newNode.previous = temp
-                 temp.next = newNode  
-                  if (newNode.next != None):
-                     newNode.next.previous = newNode
-              else:
-                  print("\nThe previous node is null.") 
-
+        temp=Node()
+        temp.data=data
+        temp.previous=index
+        temp.next=index.next
+        index.next=temp
+        if index.next==None:
+            end=temp
+        if end==temp:
+            return True
+        else:
+            return False
+        
     def get(self, index) -> int:
         # Write code here
-        temp = self.head
-        found = 0
-        i = 0
-        if(temp != None):
-          while (temp != None):
-            i += 1
-            if(temp.data == searchValue):
-              found += 1
-              break
-            temp = temp.next
-          if(found == 1):
-               print(searchValue,"is found at index =", i)
-          else:
-               print(searchValue,"is not found in the list.")
-        else:
-             print("The list is empty.")
-
+        return index.data
+        
     def delete_at_index(self, index) -> bool:
         # Write code here
-        if(position < 1):
-              print("\nposition should be >= 1.")
-        elif (position == 1 and self.head != None):
-             nodeToDelete = self.head
-             self.head = self.head.next
-             nodeToDelete = None
-             if (self.head != None):
-                self.head.prev = None
-        else:    
-            temp = self.head
-            for i in range(1, position-1):
-               if(temp != None):
-                  temp = temp.next   
-    
-    
-            if(temp != None and temp.next != None):
-               nodeToDelete = temp.next
-               temp.next = temp.next.next
-               if(temp.next.next != None):
-                  temp.next.next.prev = temp.next  
-                  nodeToDelete = None 
-            else:
-                print("\nThe node is already null.")
-
+        temp=Node()
+        if index.previous==None:
+            front=index.next
+            front.previous=None
+        elif index.next==None:
+            end=index.previous
+            end.next=None
+        else:
+            index.previous.next=index.next
+            index.next.previous=index.previous
+        temp.remove(index)
+        if index.previous!=None:
+            return True
+        else:
+            return False
     def get_previous_next(self, index) -> list:
         # Write code here
-
+        index=front
+        while(index!=None):
+            return index.data
+            index=index.next
 
 # Do not change the following code
 operations = []
